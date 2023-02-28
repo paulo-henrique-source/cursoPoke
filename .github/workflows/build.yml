@@ -17,9 +17,8 @@ jobs:
         run: |
           npm ci
           npm run build
-      - name: Push changes
-          uses: ad-m/github-push-action@master
-          with:
-            github_token: ${{ secrets.PAT }}
-            branch: refs/pull/42/merge
-            directory: .
+      - name: Deploy to gh-pages
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.PAT }}
+          publish_dir: ./build
