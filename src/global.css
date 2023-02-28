@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: 0;
+  font-family: 'SF Pro Display';
+}
+
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('./assets/fonts/sf-pro-display-regular.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Medium';
+  src: url('./assets/fonts/sf-pro-display-medium.ttf');
+}
+
+@font-face {
+  font-family: 'SF Pro Display Bold';
+  src: url('./assets/fonts/sf-pro-display-bold.ttf');
+}
+
+body {
+  background-color: white;
+}
