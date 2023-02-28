@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, } from 'react'
 import Navbar from '../../components/Navbar'
 import Background from '../../components/Background'
 import { CardContainer, HomeContainer } from './styles'
@@ -14,9 +14,8 @@ const Home = () => {
   const [pokemonLimit] = useState(20)
   const [pokemonOffSet, setPokemonOffSet] = useState(pokemonLimit)
   const [isLoading, setIsLoading] = useState(false)
-  const [searchInput, setSearchInput] = useState('')
 
-  const handleGetPokemonStats = useCallback((pokemons) => {
+  const handleGetPokemonStats = (pokemons) => {
     try {
       pokemons.map((pokemon) =>
         api.get(`/pokemon/${pokemon.name}`).then((response) => {
@@ -33,9 +32,9 @@ const Home = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }
 
-  const handleGetPokemonName = useCallback(
+  const handleGetPokemonName = (
     async (filteredPokemons) => {
       try {
         setIsLoading(true)
@@ -68,11 +67,11 @@ const Home = () => {
       } finally {
         setIsLoading(false)
       }
-    },
-    [handleGetPokemonStats, pokemonLimit]
-  )
+    })
 
-  const handleLoadNewPokemons = useCallback(async () => {
+
+
+  const handleLoadNewPokemons = async () => {
     try {
       setIsLoading(true)
       const response = await api.get('pokemon', {
@@ -91,38 +90,24 @@ const Home = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [handleGetPokemonStats, pokemonLimit, pokemonOffSet])
+  }
 
-  useEffect(() => {
-    api.get('/pokemon?limit=5000').then((response) => {
-      const result = response.data.results
-      const searchValue = searchInput.trim().toLowerCase()
-
-      if (searchValue.length > 2) {
-        const filteredPokemons = result.filter((pokemon) =>
-          pokemon.name.includes(searchValue)
-        )
-        handleGetPokemonName(filteredPokemons)
-      }
-    })
-  }, [searchInput, handleGetPokemonName])
 
   useEffect(() => {
     handleGetPokemonName()
-  }, [handleGetPokemonName])
+  }, [])
 
   return (
     <>
       <InfiniteScroll
         dataLength={pokemonInfo.length}
-        next={searchInput.trim().length <= 2 && handleLoadNewPokemons}
+        next={handleLoadNewPokemons}
         hasMore={isLoading ? false : true}
         scrollThreshold={0.9}
       >
         <Background />
         <HomeContainer>
           <Navbar />
-          {/* <Navbar setValue={setSearchInput} /> */}
 
           <CardContainer>
             {isLoading ? <Loading /> : <></>}
